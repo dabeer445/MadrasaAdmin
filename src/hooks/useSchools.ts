@@ -57,7 +57,6 @@ export function useUpdateSchool(schoolId: number) {
   return useMutation({
     mutationFn: (payload: UpdateSchoolPayload) => api.updateSchool(schoolId, payload),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: queryKeys.schools.detail(schoolId) });
       qc.invalidateQueries({ queryKey: queryKeys.schools.all });
     },
   });
