@@ -120,7 +120,10 @@ function SchoolInfoTab({ school }: { school: School }) {
       const logoUrl = await uploadLogo.mutateAsync(logoFile);
       updatedForm = { ...form, logoUrl };
     }
-    await update.mutateAsync(updatedForm);
+    const payload = Object.fromEntries(
+      Object.entries(updatedForm).filter(([, v]) => v !== null && v !== undefined)
+    ) as UpdateSchoolPayload;
+    await update.mutateAsync(payload);
   };
 
   const isPending = uploadLogo.isPending || update.isPending;

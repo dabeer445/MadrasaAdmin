@@ -25,10 +25,9 @@ export class AdminApiService {
 
     if (!res.ok) {
       const body = await res.json().catch(() => ({}));
-      if (Array.isArray(body)) {
-        throw new Error(body[0]?.message ?? `HTTP ${res.status}`);
-      }
-      throw new Error((body as { error?: string }).error ?? `HTTP ${res.status}`);
+      if (Array.isArray(body)) throw new Error(body[0]?.message ?? `HTTP ${res.status}`);
+      const b = body as { error?: string; errors?: { message: string }[] };
+      throw new Error(b.error ?? b.errors?.[0]?.message ?? `HTTP ${res.status}`);
     }
 
     const data: ApiSuccess<T> = await res.json();
@@ -55,7 +54,8 @@ export class AdminApiService {
     if (!res.ok) {
       const b = await res.json().catch(() => ({}));
       if (Array.isArray(b)) throw new Error(b[0]?.message ?? `HTTP ${res.status}`);
-      throw new Error((b as { error?: string }).error ?? `HTTP ${res.status}`);
+      const eb = b as { error?: string; errors?: { message: string }[] };
+      throw new Error(eb.error ?? eb.errors?.[0]?.message ?? `HTTP ${res.status}`);
     }
 
     const data = await res.json() as { success: true; logoUrl: string };
