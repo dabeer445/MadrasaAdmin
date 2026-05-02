@@ -228,6 +228,40 @@ body {
   animation: shimmer 1.5s infinite;
 }
 
+/* ── iOS: prevent zoom on input focus (requires font-size ≥ 16px) ── */
+
+@media screen and (max-width: 767px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* ── Safe area utilities (iPhone notch / home indicator) ─────────── */
+
+/* Mobile header: extend background behind status bar */
+.header-safe {
+  padding-top: calc(0.75rem + env(safe-area-inset-top, 0px));
+  padding-bottom: 0.75rem;
+}
+
+/* Main content: offset for mobile header + status bar */
+.main-offset-safe {
+  padding-top: calc(3rem + env(safe-area-inset-top, 0px));
+}
+
+/* Sidebar: push content clear of notch and home indicator */
+.sidebar-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Scrollable content: don't let last items hide behind home indicator */
+.content-safe-bottom {
+  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+}
+
 /* ── Fade-in animation for page content ─────────────────────────── */
 
 @keyframes fade-up {

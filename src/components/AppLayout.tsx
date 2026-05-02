@@ -28,7 +28,7 @@ export default function AppLayout() {
   };
 
   const sidebar = (
-    <div className="flex flex-col h-full bg-zinc-950 border-r border-zinc-800/60">
+    <div className="flex flex-col h-full bg-zinc-950 border-r border-zinc-800/60 sidebar-safe">
       {/* Logo */}
       <div className="px-5 py-5 flex items-center gap-3 border-b border-zinc-800/60">
         <div className="w-8 h-8 bg-amber-500 rounded-lg flex items-center justify-center shrink-0">
@@ -83,7 +83,7 @@ export default function AppLayout() {
   return (
     <div className="min-h-screen flex bg-zinc-950">
       {/* Mobile header */}
-      <header className="md:hidden fixed top-0 inset-x-0 z-40 bg-zinc-950 border-b border-zinc-800 px-4 py-3 flex items-center justify-between">
+      <header className="md:hidden fixed top-0 inset-x-0 z-40 bg-zinc-950 border-b border-zinc-800 px-4 header-safe flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 bg-amber-500 rounded flex items-center justify-center">
             <ShieldCheck className="w-3.5 h-3.5 text-zinc-950" />
@@ -115,8 +115,8 @@ export default function AppLayout() {
       </aside>
 
       {/* Main */}
-      <main className="flex-1 min-w-0 overflow-y-auto pt-12 md:pt-0">
-        <div className="max-w-5xl mx-auto px-4 py-6 md:px-8 md:py-8">
+      <main className="flex-1 min-w-0 overflow-y-auto main-offset-safe md:pt-0">
+        <div className="max-w-5xl mx-auto px-4 py-6 md:px-8 md:py-8 content-safe-bottom md:pb-8">
           <Outlet />
         </div>
       </main>

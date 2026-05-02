@@ -84,6 +84,8 @@ export default function Schools() {
       </div>
 
       {/* Table */}
+      <div className="overflow-x-auto -mx-4 md:mx-0">
+      <div className="min-w-[640px] px-4 md:px-0">
       <Table variant="secondary">
         <Table.Content
           aria-label="Schools"
@@ -145,6 +147,8 @@ export default function Schools() {
             </Table.Body>
           </Table.Content>
       </Table>
+      </div>
+      </div>
 
       {totalPages > 1 && (
         <div className="flex justify-end">
