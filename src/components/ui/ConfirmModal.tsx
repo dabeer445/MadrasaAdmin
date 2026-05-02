@@ -1,3 +1,4 @@
+import { AlertDialog, Button } from '@heroui/react';
 import { AlertTriangle } from 'lucide-react';
 
 interface ConfirmModalProps {
@@ -14,33 +15,31 @@ export default function ConfirmModal({
   isOpen, title, message, confirmLabel = 'Confirm',
   onConfirm, onClose, isPending,
 }: ConfirmModalProps) {
-  if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="p-2 rounded-xl bg-red-50">
-            <AlertTriangle className="w-5 h-5 text-red-600" />
-          </div>
-          <h2 className="text-base font-semibold text-slate-900">{title}</h2>
-        </div>
-        <p className="text-sm text-slate-500 mb-5">{message}</p>
-        <div className="flex gap-3">
-          <button
-            onClick={onClose}
-            className="flex-1 rounded-lg border border-slate-300 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={onConfirm}
-            disabled={isPending}
-            className="flex-1 rounded-lg bg-red-600 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50"
-          >
-            {isPending ? 'Please wait...' : confirmLabel}
-          </button>
-        </div>
-      </div>
-    </div>
+    <AlertDialog isOpen={isOpen} onOpenChange={(open) => { if (!open) onClose(); }}>
+      <Button aria-hidden excludeFromTabOrder className="sr-only" />
+      <AlertDialog.Backdrop variant="blur" isDismissable={false} isKeyboardDismissDisabled>
+        <AlertDialog.Container placement="center">
+          <AlertDialog.Dialog>
+            <AlertDialog.Header>
+              <AlertDialog.Icon status="danger">
+                <AlertTriangle className="w-5 h-5" />
+              </AlertDialog.Icon>
+              <AlertDialog.Heading>{title}</AlertDialog.Heading>
+              <AlertDialog.CloseTrigger />
+            </AlertDialog.Header>
+            <AlertDialog.Body>
+              <p className="text-sm">{message}</p>
+            </AlertDialog.Body>
+            <AlertDialog.Footer>
+              <Button variant="ghost" onPress={onClose}>Cancel</Button>
+              <Button variant="danger" onPress={onConfirm} isDisabled={isPending}>
+                {isPending ? 'Please wait…' : confirmLabel}
+              </Button>
+            </AlertDialog.Footer>
+          </AlertDialog.Dialog>
+        </AlertDialog.Container>
+      </AlertDialog.Backdrop>
+    </AlertDialog>
   );
 }

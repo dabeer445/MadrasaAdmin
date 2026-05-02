@@ -1,11 +1,245 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "@heroui/styles";
+
+/* ── HeroUI theme overrides ─────────────────────────────────────── */
+
+:root {
+  /* Shrink the base radius — buttons/chips override separately below */
+  --radius: 0.5rem;
+}
+
+.dark {
+  /* Accent: amber (#f59e0b) instead of default blue */
+  --accent: oklch(0.769 0.188 70.6);
+  --accent-foreground: oklch(0.2103 0.0059 285.89);
+
+  /* Match our zinc-950/900 surface palette */
+  --background: oklch(8.9% 0.003 285.823);
+  --surface: oklch(13.5% 0.004 285.823);
+  --surface-secondary: oklch(17% 0.004 286);
+  --surface-tertiary: oklch(19% 0.004 286);
+  --overlay: oklch(13.5% 0.004 285.823);
+  --border: oklch(22% 0.005 286.033);
+  --separator: oklch(22% 0.005 286.033);
+  --default: oklch(22% 0.005 286.033);
+  --field-background: oklch(19% 0.004 286);  /* zinc-800ish — lighter than modal overlay */
+  --field-border: #3f3f46;                    /* zinc-700 — visible border */
+  --field-border-width: 1px;
+  --field-placeholder: #71717a;               /* zinc-500 */
+}
+
+/* ── Override hardcoded rounded-3xl/rounded-2xl in HeroUI components */
+
+@layer components {
+  .button {
+    border-radius: var(--radius);
+  }
+  .chip {
+    border-radius: calc(var(--radius) * 0.75);
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────── */
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  color-scheme: dark;
+}
+
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #09090b;
+  color: #fafafa;
 }
+
+.font-mono, code, .mono {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #52525b; }
+
+/* Focus */
+*:focus-visible {
+  outline: 2px solid #f59e0b;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Shared component classes ─────────────────────────────────────── */
+
+@layer components {
+
+  .field {
+    @apply w-full bg-zinc-800 border border-zinc-600 text-zinc-100 placeholder:text-zinc-500
+           rounded-lg px-3 py-2 text-sm outline-none transition-all appearance-none
+           focus:border-amber-500 focus:ring-2 focus:ring-amber-500/15;
+  }
+
+  .field-label {
+    @apply block text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-1.5;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 active:bg-amber-600
+           text-zinc-950 font-semibold rounded-lg px-4 py-2 text-sm
+           transition-all disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 bg-zinc-800 hover:bg-zinc-700 active:bg-zinc-600
+           text-zinc-100 font-medium rounded-lg px-4 py-2 text-sm border border-zinc-700
+           transition-all disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800
+           font-medium rounded-lg px-3 py-2 text-sm transition-all;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center gap-2 bg-rose-500/10 hover:bg-rose-500/20
+           text-rose-400 hover:text-rose-300 font-medium rounded-lg px-4 py-2 text-sm
+           border border-rose-500/20 transition-all disabled:opacity-40;
+  }
+
+  .card {
+    @apply bg-zinc-900 border border-zinc-800 rounded-xl;
+  }
+
+  .card-elevated {
+    @apply bg-zinc-800/60 border border-zinc-700/50 rounded-xl;
+  }
+
+  .page-title {
+    @apply text-xl font-bold text-zinc-50 tracking-tight;
+  }
+
+  .table-wrap {
+    @apply overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900;
+  }
+
+  .th {
+    @apply px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-widest text-zinc-500;
+  }
+
+  .td {
+    @apply px-4 py-3.5 text-sm text-zinc-300;
+  }
+
+  .tr-hover {
+    @apply border-b border-zinc-800 hover:bg-zinc-800/40 transition-colors last:border-0;
+  }
+
+  .tag {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+
+  .modal-backdrop {
+    @apply fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4;
+  }
+
+  .modal-panel {
+    @apply w-full bg-zinc-900 border border-zinc-700 rounded-2xl shadow-2xl shadow-black/50;
+  }
+
+  .modal-header {
+    @apply flex items-center justify-between px-6 py-4 border-b border-zinc-800;
+  }
+
+  .tab-bar {
+    @apply flex gap-1 border-b border-zinc-800 mb-6;
+  }
+
+  .tab-btn {
+    @apply px-4 py-2.5 text-sm font-medium capitalize transition-colors relative;
+  }
+
+  .tab-active {
+    @apply text-amber-400;
+  }
+
+  .tab-inactive {
+    @apply text-zinc-500 hover:text-zinc-300;
+  }
+}
+
+/* ── Secondary tabs: amber underline on selected tab ────────────── */
+
+.tabs--secondary .tabs__tab[data-selected="true"] {
+  color: var(--color-accent);
+  position: relative;
+}
+
+.tabs--secondary .tabs__tab[data-selected="true"]::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-accent);
+  border-radius: 2px 2px 0 0;
+}
+
+/* ── Login page background grid ──────────────────────────────────── */
+
+.login-bg {
+  background-color: #09090b;
+  background-image:
+    linear-gradient(rgba(245,158,11,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,158,11,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── Sidebar amber active indicator ─────────────────────────────── */
+
+.nav-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background: #f59e0b;
+  border-radius: 0 2px 2px 0;
+}
+
+/* ── Stat card shimmer skeleton ──────────────────────────────────── */
+
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #18181b 25%, #27272a 50%, #18181b 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ── Fade-in animation for page content ─────────────────────────── */
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+.fade-up {
+  animation: fade-up 0.3s ease-out both;
+}
+
+.fade-up-1 { animation-delay: 0.05s; }
+.fade-up-2 { animation-delay: 0.10s; }
+.fade-up-3 { animation-delay: 0.15s; }
+.fade-up-4 { animation-delay: 0.20s; }

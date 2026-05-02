@@ -10,10 +10,17 @@ export const STATUS_LABELS: Record<SubscriptionStatus, string> = {
 };
 
 export const STATUS_COLORS: Record<SubscriptionStatus, string> = {
-  trial: 'bg-yellow-100 text-yellow-800',
-  active: 'bg-green-100 text-green-800',
-  expired: 'bg-gray-100 text-gray-600',
-  suspended: 'bg-red-100 text-red-800',
+  trial:     'bg-amber-500/10 text-amber-400 border border-amber-500/20',
+  active:    'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20',
+  expired:   'bg-zinc-700/40 text-zinc-400 border border-zinc-600/30',
+  suspended: 'bg-rose-500/10 text-rose-400 border border-rose-500/20',
+};
+
+export const STATUS_DOT: Record<SubscriptionStatus, string> = {
+  trial:     'bg-amber-400',
+  active:    'bg-emerald-400',
+  expired:   'bg-zinc-500',
+  suspended: 'bg-rose-500',
 };
 
 export const MONTH_OPTIONS = [

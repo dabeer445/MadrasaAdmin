@@ -36,7 +36,9 @@ export interface PlatformStats {
   totalSchools: number;
   totalStudents: number;
   totalPayments: number;
+  totalPaymentsAmount: number;
   totalExpenses: number;
+  totalExpensesAmount: number;
 }
 
 // ─── API Primitives ───────────────────────────────────────────────────────────
@@ -53,7 +55,7 @@ export interface ApiError {
 // ─── Mutation Payloads ────────────────────────────────────────────────────────
 
 export interface CreateSchoolPayload {
-  slug: string;
+  slug?: string;
   name: string;
   logoUrl?: string | null;
   address?: string;

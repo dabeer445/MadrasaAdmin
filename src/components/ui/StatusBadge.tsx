@@ -1,10 +1,14 @@
+import { Chip } from '@heroui/react';
 import type { SubscriptionStatus } from '../../types';
-import { STATUS_COLORS, STATUS_LABELS } from '../../lib/constants';
+
+const STATUS_MAP: Record<SubscriptionStatus, { color: 'success' | 'warning' | 'danger' | 'default'; label: string }> = {
+  active:    { color: 'success', label: 'Active' },
+  trial:     { color: 'warning', label: 'Trial' },
+  expired:   { color: 'danger',  label: 'Expired' },
+  suspended: { color: 'default', label: 'Suspended' },
+};
 
 export default function StatusBadge({ status }: { status: SubscriptionStatus }) {
-  return (
-    <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_COLORS[status]}`}>
-      {STATUS_LABELS[status]}
-    </span>
-  );
+  const { color, label } = STATUS_MAP[status] ?? STATUS_MAP.suspended;
+  return <Chip color={color} variant="soft" size="sm">{label}</Chip>;
 }

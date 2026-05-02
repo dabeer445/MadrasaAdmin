@@ -32,6 +32,25 @@ export function useCreateSchool() {
   });
 }
 
+export function useUploadLogo() {
+  const api = useAdminApi();
+  return useMutation({
+    mutationFn: (file: File) => api.uploadLogo(file),
+  });
+}
+
+export function useDeleteSchool() {
+  const api = useAdminApi();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: number) => api.deleteSchool(id),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: queryKeys.schools.all });
+      qc.invalidateQueries({ queryKey: queryKeys.stats.platform });
+    },
+  });
+}
+
 export function useUpdateSchool(schoolId: number) {
   const api = useAdminApi();
   const qc = useQueryClient();

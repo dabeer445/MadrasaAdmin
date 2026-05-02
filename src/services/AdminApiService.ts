@@ -25,11 +25,40 @@ export class AdminApiService {
 
     if (!res.ok) {
       const body = await res.json().catch(() => ({}));
+      if (Array.isArray(body)) {
+        throw new Error(body[0]?.message ?? `HTTP ${res.status}`);
+      }
       throw new Error((body as { error?: string }).error ?? `HTTP ${res.status}`);
     }
 
     const data: ApiSuccess<T> = await res.json();
     return data.result;
+  }
+
+  // ─── Uploads ─────────────────────────────────────────────────────────────────
+
+  async uploadLogo(file: File): Promise<string> {
+    const token = localStorage.getItem('sa_token');
+    const body = new FormData();
+    body.append('file', file);
+    const res = await fetch(`${this.apiUrl}/admin/upload-logo`, {
+      method: 'POST',
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      body,
+    });
+
+    if (res.status === 401) {
+      window.dispatchEvent(new CustomEvent('auth:unauthorized'));
+      throw new Error('Unauthorized');
+    }
+
+    if (!res.ok) {
+      const b = await res.json().catch(() => ({}));
+      throw new Error((b as { error?: string }).error ?? `HTTP ${res.status}`);
+    }
+
+    const data = await res.json() as { success: true; logoUrl: string };
+    return data.logoUrl;
   }
 
   // ─── Schools ────────────────────────────────────────────────────────────────
@@ -54,6 +83,10 @@ export class AdminApiService {
       method: 'PUT',
       body: JSON.stringify(payload),
     });
+  }
+
+  deleteSchool(id: number): Promise<void> {
+    return this.request(`/admin/schools/${id}`, { method: 'DELETE' });
   }
 
   // ─── Users ───────────────────────────────────────────────────────────────────

@@ -1,6 +1,7 @@
 import { useAuth } from '../services/AuthContext';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import { Card, Button } from '@heroui/react';
 import { LogOut } from 'lucide-react';
 
 export default function Settings() {
@@ -15,19 +16,20 @@ export default function Settings() {
   };
 
   return (
-    <div className="space-y-6 max-w-sm">
-      <h1 className="text-2xl font-bold text-slate-900">Settings</h1>
+    <div className="space-y-6 max-w-sm fade-up">
+      <h1 className="page-title">Settings</h1>
 
-      <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 space-y-4">
-        <h2 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">Session</h2>
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-2 rounded-lg bg-red-50 border border-red-200 px-4 py-2.5 text-sm font-medium text-red-700 hover:bg-red-100 transition-colors"
+      <Card className="p-5 space-y-4">
+        <p className="text-[11px] font-semibold uppercase tracking-widest text-zinc-500">Session</p>
+        <Button
+          variant="danger"
+          onPress={handleLogout}
+          className="gap-2"
         >
           <LogOut className="w-4 h-4" />
           Sign out
-        </button>
-      </div>
+        </Button>
+      </Card>
     </div>
   );
 }
