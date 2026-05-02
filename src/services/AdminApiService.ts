@@ -54,6 +54,7 @@ export class AdminApiService {
 
     if (!res.ok) {
       const b = await res.json().catch(() => ({}));
+      if (Array.isArray(b)) throw new Error(b[0]?.message ?? `HTTP ${res.status}`);
       throw new Error((b as { error?: string }).error ?? `HTTP ${res.status}`);
     }
 
